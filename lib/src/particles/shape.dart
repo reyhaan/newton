@@ -69,6 +69,36 @@ class CircleShape extends Shape {
   }
 }
 
+/// Represents a rectangular shape based for rendering particles.
+///
+/// This class allows particles to be rendered using a custom image. The image
+/// is used to define the shape and appearance of the particles.
+class DropletShape extends Shape {
+  @override
+  ({ui.Image image, ui.Rect rect, ui.RSTransform transform, ui.Color color})? computeTransformation(
+      Particle particle, ui.Image defaultShapes,) {
+    const rect = Rect.fromLTWH(
+      0,
+      0,
+      1000,
+      200,
+    );
+    final transform = RSTransform.fromComponents(
+      rotation: 0,
+      scale: min(
+        particle.size.width / Shape.defaultSpriteSize.width,
+        particle.size.height / Shape.defaultSpriteSize.height,
+      ),
+      anchorX: Shape.defaultSpriteSize.width / 2,
+      anchorY: Shape.defaultSpriteSize.height / 2,
+      translateX: particle.position.dx,
+      translateY: particle.position.dy,
+    );
+    final color = particle.color;
+    return (image: defaultShapes, rect: rect, transform: transform, color: color);
+  }
+}
+
 /// Represents a shape based on an image for rendering particles.
 ///
 /// This class allows particles to be rendered using a custom image. The image
